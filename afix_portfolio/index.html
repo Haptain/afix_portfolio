@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Gikonyo - TVET Level 6 Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f1a;
+            --bg-elevated: #16162a;
+            --bg-card: #1e1e38;
+            --bg-card-hover: #25254a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99,102,241,0.25);
+            --accent-secondary: #8b5cf6;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --border: rgba(255,255,255,0.06);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #0d1117;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .ambient {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .ambient::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: -200px; right: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+        .ambient::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+            bottom: -100px; left: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+        .sidebar {
+            width: 280px;
+            background: var(--bg-elevated);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        .brand {
+            padding: 0 12px 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .brand h1 {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .brand .subtitle {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .brand .meta {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .brand .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .brand .meta-item svg {
+            width: 14px; height: 14px;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .nav-section { margin-bottom: 8px; }
+        .nav-section-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+        .nav-item:hover {
+            background: rgba(99,102,241,0.08);
+            color: var(--text);
+        }
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1));
+            color: var(--text);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .nav-item .icon {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+        .nav-item.active .icon {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+        }
+        .nav-item .title { font-weight: 500; }
+        .nav-item .badge {
+            margin-left: auto;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(34,197,94,0.15);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 32px 40px;
+            max-width: calc(100% - 280px);
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .page-header h2 .unit-num {
+            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            font-weight: 600;
+        }
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .card:hover {
+            border-color: rgba(99,102,241,0.2);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+        @media (max-width: 1200px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .grid-3, .grid-2 { grid-template-columns: 1fr; }
+            .sidebar { width: 240px; }
+            .main { margin-left: 240px; max-width: calc(100% - 240px); padding: 20px; }
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+        }
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .stat-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .code-lang {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre {
+            padding: 16px 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+        .code-block pre .comment { color: #8b949e; }
+        .code-block pre .keyword { color: #ff7b72; }
+        .code-block pre .string { color: #a5d6ff; }
+        .code-block pre .function { color: #d2a8ff; }
+        .code-block pre .number { color: #79c0ff; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        .data-table tr:hover td {
+            background: rgba(99,102,241,0.03);
+        }
+        .data-table .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-success { background: rgba(34,197,94,0.1); color: var(--success); }
+        .status-warn { background: rgba(245,158,11,0.1); color: var(--warning); }
+        .status-active { background: rgba(99,102,241,0.1); color: var(--accent); }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05));
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+        .info-box strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .info-box p, .info-box ul {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .info-box ul { margin-left: 18px; }
+
+        .feature-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.6;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list li::before {
+            content: '>';
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .feature-list li strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .assessment-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .assessment-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent));
+        }
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .assessment-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .assessment-field label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+        .assessment-field input,
+        .assessment-field textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .assessment-field input:focus,
+        .assessment-field textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .assessment-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .sign-line {
+            border-bottom: 2px solid var(--text-dim);
+            height: 50px;
+            margin-top: 8px;
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* Photo gallery with real image support */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .photo-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .photo-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.15);
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-item .placeholder {
+            font-size: 48px;
+            opacity: 0.3;
+        }
+        .photo-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: white;
+            padding: 20px 12px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .upload-card {
+            margin: 20px 0 24px;
+            padding: 18px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            background: rgba(99,102,241,0.06);
+        }
+        .upload-card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            color: var(--text);
+        }
+        .upload-card p {
+            margin: 0 0 12px;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .upload-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .upload-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .upload-button:hover {
+            filter: brightness(1.06);
+        }
+        .upload-button input {
+            display: none;
+        }
+        .upload-note {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 9999;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal-content {
+            position: relative;
+            max-width: min(1100px, 100%);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 82vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+            background: #fff;
+        }
+        .image-modal-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            border: none;
+            background: #fff;
+            color: #111827;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .image-modal-caption {
+            color: #e5e7eb;
+            font-size: 14px;
+            text-align: center;
+            max-width: 720px;
+        }
+        .photo-item img, .card img {
+            cursor: zoom-in;
+        }
+
+        .section-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .section-text strong { color: var(--text); }
+
+        .unit-content { display: none; }
+        .unit-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; max-width: 100%; padding: 16px; }
+            .assessment-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient"></div>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <h1>James Gikonyo</h1>
+                <div class="subtitle">TVET CDACC Level 6</div>
+                <div class="meta">
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        James Gikonyo
+                    </div>
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                        Nairobi National Polytechnic
+                    </div>
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        May - July 2026
+                    </div>
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        Ramcotech Solutions (AIRMAX)
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Competency Units</div>
+                <button class="nav-item active" onclick="showUnit(1, this)">
+                    <div class="icon">01</div>
+                    <span class="title">Networking</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(2, this)">
+                    <div class="icon">02</div>
+                    <span class="title">Software</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(3, this)">
+                    <div class="icon">03</div>
+                    <span class="title">Security</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(4, this)">
+                    <div class="icon">04</div>
+                    <span class="title">System Support</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(5, this)">
+                    <div class="icon">05</div>
+                    <span class="title">Website Design</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(6, this)">
+                    <div class="icon">06</div>
+                    <span class="title">Repair &amp; Maint.</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(7, this)">
+                    <div class="icon">07</div>
+                    <span class="title">Database</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(8, this)">
+                    <div class="icon">08</div>
+                    <span class="title">MIS</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(9, this)">
+                    <div class="icon">09</div>
+                    <span class="title">Graphic Design</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(10, this)">
+                    <div class="icon">10</div>
+                    <span class="title">Programming</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(11, this)">
+                    <div class="icon">11</div>
+                    <span class="title">Mobile App</span>
+                    <span class="badge">Done</span>
+                </button>
+                <button class="nav-item" onclick="showUnit(12, this)">
+                    <div class="icon">12</div>
+                    <span class="title">System Analysis</span>
+                    <span class="badge">Done</span>
+                </button>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Assessment</div>
+                <button class="nav-item" onclick="showUnit(99, this)">
+                    <div class="icon">AS</div>
+                    <span class="title">Mentor Sign-Off</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main">
+
+            <!-- UNIT 1: NETWORKING -->
+            <div class="unit-content active" id="unit-1">
+                <div class="page-header">
+                    <h2><span class="unit-num">01</span> Perform Computer Networking</h2>
+                    <p>Deployed 5+ hotspots across Kianjiru and Mururi towns with fiber splicing, IP segmentation, and full network configuration.</p>
+                </div>
+
+                <div class="grid-4">
+                    <div class="stat-card">
+                        <div class="stat-label">Hotspots Deployed</div>
+                        <div class="stat-value">5+</div>
+                        <div class="stat-desc">Across 2 zones</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Uptime Achieved</div>
+                        <div class="stat-value">99.5%</div>
+                        <div class="stat-desc">All sites monitored</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Peak Speed</div>
+                        <div class="stat-value">25<span style="font-size:14px">Mbps</span></div>
+                        <div class="stat-desc">Per zone average</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Users Served</div>
+                        <div class="stat-value">250+</div>
+                        <div class="stat-desc">Active connections</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Practical Work Completed</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Site Surveys:</strong> Conducted assessments in Kianjiru and Mururi towns to determine user needs, network topology, terrain analysis, and coverage requirements.</li>
+                        <li><strong>Network Deployment:</strong> Installed 5+ hotspots with proper pole mounting, antenna alignment, and cable routing.</li>
+                        <li><strong>Fiber Splicing:</strong> Spliced fiber optic cables per ITU-T G.652 standards with proper protection and testing.</li>
+                        <li><strong>Network Configuration:</strong> Configured IP addressing (192.168.100.0/24 for Kianjiru, 192.168.101.0/24 for Mururi), SSID setup, WPA2 security, and DHCP.</li>
+                        <li><strong>Segmentation & Access Control:</strong> Organized network by geographic zones with separate subnets and user privilege levels (admin, technician, customer, guest).</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Deployment Gallery</div>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item">
+                            <img src="images/unit1_hotspot_kianjiru.jpg" alt="Hotspot on pole - Kianjiru" onerror="this.style.display='none'">
+                            <div class="photo-caption">Hotspot on pole - Kianjiru</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/unit1_equipment_mounting.jpg" alt="Equipment mounting & cables" onerror="this.style.display='none'">
+                            <div class="photo-caption">Equipment mounting & cables</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/unit1_fiber_splice.jpg" alt="Fiber splice box connections" onerror="this.style.display='none'">
+                            <div class="photo-caption">Fiber splice box connections</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/unit1_coverage_mururi.jpg" alt="Coverage area - Mururi zone" onerror="this.style.display='none'">
+                            <div class="photo-caption">Coverage area - Mururi zone</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 2: SOFTWARE -->
+            <div class="unit-content" id="unit-2">
+                <div class="page-header">
+                    <h2><span class="unit-num">02</span> Install Computer Software</h2>
+                    <p>Installed and configured hotspot firmware, network management software, and monitoring tools on deployed devices.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Software Inventory</div>
+                    </div>
+                    <table class="data-table">
+                        <tr><th>Software</th><th>Version</th><th>Purpose</th><th>Status</th></tr>
+                        <tr><td>OpenWrt Firmware</td><td>21.02</td><td>Hotspot OS & routing</td><td><span class="status status-success">Installed on 5 devices</span></td></tr>
+                        <tr><td>LuCI Web Interface</td><td>21.02</td><td>Device management console</td><td><span class="status status-success">Configured & tested</span></td></tr>
+                        <tr><td>Hostapd</td><td>2.9</td><td>Wireless access point daemon</td><td><span class="status status-success">Running across all hotspots</span></td></tr>
+                        <tr><td>Dnsmasq</td><td>2.85</td><td>DHCP & DNS service</td><td><span class="status status-success">Active on all zones</span></td></tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Configuration Process</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">Shell / CLI</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre>1. Access router admin (192.168.1.1 &rarr; Username/Password)
+2. Go to Network &rarr; Interfaces
+3. Configure WAN: DHCP enabled
+4. Configure LAN: Static IP (192.168.100.1 for K1)
+5. Wireless &rarr; Configure SSID, select WPA2-PSK
+6. Set password (minimum 12 characters, mixed case)
+7. Enable transmit power: 20dBm
+8. DHCP server &rarr; Pool: 192.168.100.10-250
+9. Firewall &rarr; Enable, add rules
+10. Reboot and verify connectivity</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Testing & Verification</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Connected clients:</strong> Phones, laptops, IoT devices successfully joined networks</li>
+                        <li><strong>Internet access:</strong> All users able to browse, stream, and access services</li>
+                        <li><strong>Speed test:</strong> Peak 25 Mbps, average 15 Mbps sustained</li>
+                        <li><strong>Stability:</strong> 24-hour uptime test passed, zero crashes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- UNIT 3: SECURITY -->
+            <div class="unit-content" id="unit-3">
+                <div class="page-header">
+                    <h2><span class="unit-num">03</span> Control ICT Security Threats</h2>
+                    <p>Implemented comprehensive network security measures to protect user data, prevent unauthorized access, and comply with ICT security regulations.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>Security Measures</div>
+                        </div>
+                        <div class="info-box">
+                            <strong>Encryption & Authentication</strong>
+                            WPA2-PSK with AES encryption on all SSIDs. Regular password changes. Admin access via SSH only.
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>Firewall Rules:</strong> Incoming traffic blocked by default | Outgoing traffic allowed | HTTPS/DNS whitelisted</li>
+                            <li><strong>Access Control:</strong> MAC filtering for business users | Rate limiting per client | DDoS protection enabled</li>
+                            <li><strong>Monitoring:</strong> Real-time connection logs | Failed login attempts tracked | Anomaly alerts configured</li>
+                            <li><strong>Updates:</strong> Security patches applied monthly | Firmware updates on schedule | Vulnerability scanning performed</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>Security Audit</div>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item">
+                                <img src="images/unit3_firewall.jpg" alt="Firewall configuration" onerror="this.style.display='none'">
+                                <div class="photo-caption">Firewall configuration</div>
+                            </div>
+                            <div class="photo-item">
+                                <img src="images/unit3_access_control.jpeg" alt="Access control list" onerror="this.style.display='none'">
+                                <div class="photo-caption">Access control list</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 4: SYSTEM SUPPORT -->
+            <div class="unit-content" id="unit-4">
+                <div class="page-header">
+                    <h2><span class="unit-num">04</span> Perform ICT System Support</h2>
+                    <p>Provided ongoing technical support, troubleshooting, and preventive maintenance for network infrastructure across both deployment zones.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Simple Support Report</div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Summary</strong>
+                        I provided day-to-day technical support by checking network problems, solving simple faults, and helping keep the system running smoothly for users.
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Support work:</strong> Responded to connection issues, checked signal quality, and helped users with basic troubleshooting.</li>
+                        <li><strong>Maintenance:</strong> Performed routine checks on equipment, cleaned hardware, and ensured cables and devices were safe to use.</li>
+                        <li><strong>Documentation:</strong> Recorded recurring issues and maintenance actions so problems could be solved faster in the future.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Workplace Evidence</div>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item">
+                            <img src="images/extra_photo_1.jpeg" alt="Workplace evidence photo 1" loading="lazy" onerror="this.style.display='none';">
+                            <div class="photo-caption">Workplace evidence 1</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/extra_photo_2.jpg" alt="Workplace evidence photo 2" loading="lazy" onerror="this.style.display='none';">
+                            <div class="photo-caption">Workplace evidence 2</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/extra_photo_3.jpeg" alt="Workplace evidence photo 3" loading="lazy" onerror="this.style.display='none';">
+                            <div class="photo-caption">Workplace evidence 3</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/WhatsApp%20Image%202026-07-16%20at%2012.00.25%20PM.jpeg" alt="Workplace evidence photo 4" loading="lazy" onerror="this.style.display='none';">
+                            <div class="photo-caption">Workplace evidence 4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 5: WEBSITE DESIGN -->
+            <div class="unit-content" id="unit-5">
+                <div class="page-header">
+                    <h2><span class="unit-num">05</span> Perform Website Design</h2>
+                    <p>Studied web design principles and created documentation websites using HTML/CSS for network management and customer portals.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Projects Delivered</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Company Network Portal:</strong> User login page, bandwidth dashboard, payment portal - HTML/CSS with JavaScript</li>
+                        <li><strong>Service Documentation:</strong> Hotspot setup guides, troubleshooting pages, user manuals - Responsive design</li>
+                        <li><strong>Admin Dashboard:</strong> Network status, device monitoring, user analytics - Real-time updates</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Customer Portal - HTML/CSS</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">HTML / CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Network Customer Portal&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial; background: #f5f5f5; }
+        .dashboard { max-width: 1000px; margin: 20px auto; }
+        .card { background: white; padding: 20px; margin: 10px 0; 
+                border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { color: #27ae60; font-weight: bold; }
+        .chart { width: 100%; height: 200px; background: #ecf0f1; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="dashboard"&gt;
+        &lt;h1&gt;My Network Dashboard&lt;/h1&gt;
+        &lt;div class="card"&gt;
+            &lt;h3&gt;Connection Status&lt;/h3&gt;
+            &lt;p class="status"&gt;Connected&lt;/p&gt;
+            &lt;p&gt;Speed: 18 Mbps | Uptime: 99.5%&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="card"&gt;
+            &lt;h3&gt;Data Usage This Month&lt;/h3&gt;
+            &lt;div class="chart"&gt;&lt;/div&gt;
+            &lt;p&gt;Used: 450 GB / Limit: 500 GB&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="card"&gt;
+            &lt;h3&gt;Recent Bills&lt;/h3&gt;
+            &lt;p&gt;Next Bill: June 15, 2026 | Amount: KES 2,500&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 6: REPAIR -->
+            <div class="unit-content" id="unit-6">
+                <div class="page-header">
+                    <h2><span class="unit-num">06</span> Perform Computer Repair & Maintenance</h2>
+                    <p>Performed routine maintenance, diagnostic testing, and repairs on networking equipment throughout the attachment period.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>Equipment Maintenance</div>
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>Physical Inspection:</strong> Monthly checks of all installed equipment, cables, connectors, and mounting hardware</li>
+                            <li><strong>Component Testing:</strong> Power supply verification, antenna resistance testing, cable continuity checks</li>
+                            <li><strong>Cleaning & Care:</strong> Removed dust from equipment, cleaned cable connections, applied protective coatings</li>
+                            <li><strong>Replacements:</strong> Changed 2 failed ethernet ports, replaced 1 damaged antenna connector, upgraded 1 power supply</li>
+                            <li><strong>Documentation:</strong> Maintained maintenance log with dates, actions taken, and parts replaced</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>Troubleshooting Process</div>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Procedure</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <pre>1. Power ON device &rarr; Check LED indicators
+2. Visual inspection &rarr; Look for burnt components, loose cables
+3. Measure voltages &rarr; Use multimeter on power lines
+4. Test connectivity &rarr; Check cable with tester
+5. Run diagnostics &rarr; Boot into recovery mode
+6. Identify problem &rarr; Document findings
+7. Replace/repair &rarr; Use appropriate parts
+8. Test again &rarr; Verify fix with full power-on
+9. Document &rarr; Log all changes in maintenance register</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 7: DATABASE -->
+            <div class="unit-content" id="unit-7">
+                <div class="page-header">
+                    <h2><span class="unit-num">07</span> Manage Database Systems</h2>
+                    <p>Designed and managed databases for network user management, billing, and service delivery tracking.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>SQL Database Schema</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">SQL</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre><span class="comment">-- Users Table</span>
+<span class="keyword">CREATE TABLE</span> users (
+    user_id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    username <span class="keyword">VARCHAR</span>(50) <span class="keyword">UNIQUE NOT NULL</span>,
+    email <span class="keyword">VARCHAR</span>(100) <span class="keyword">UNIQUE NOT NULL</span>,
+    password_hash <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>,
+    zone <span class="keyword">VARCHAR</span>(20), <span class="comment">-- Kianjiru or Mururi</span>
+    user_type <span class="keyword">ENUM</span>(<span class="string">'residential'</span>, <span class="string">'business'</span>, <span class="string">'admin'</span>),
+    bandwidth_limit <span class="keyword">INT</span>, <span class="comment">-- in Mbps</span>
+    data_limit <span class="keyword">INT</span>, <span class="comment">-- in GB</span>
+    registration_date <span class="keyword">TIMESTAMP</span>,
+    status <span class="keyword">ENUM</span>(<span class="string">'active'</span>, <span class="string">'suspended'</span>, <span class="string">'inactive'</span>)
+);
+
+<span class="comment">-- Payments Table</span>
+<span class="keyword">CREATE TABLE</span> payments (
+    payment_id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    user_id <span class="keyword">INT NOT NULL</span>,
+    amount <span class="keyword">DECIMAL</span>(10, 2),
+    payment_date <span class="keyword">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>,
+    payment_method <span class="keyword">VARCHAR</span>(50),
+    reference_number <span class="keyword">VARCHAR</span>(100),
+    <span class="keyword">FOREIGN KEY</span> (user_id) <span class="keyword">REFERENCES</span> users(user_id)
+);
+
+<span class="comment">-- Bandwidth Usage Table</span>
+<span class="keyword">CREATE TABLE</span> usage_logs (
+    log_id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    user_id <span class="keyword">INT NOT NULL</span>,
+    date <span class="keyword">DATE</span>,
+    data_uploaded <span class="keyword">BIGINT</span>,
+    data_downloaded <span class="keyword">BIGINT</span>,
+    session_count <span class="keyword">INT</span>,
+    <span class="keyword">FOREIGN KEY</span> (user_id) <span class="keyword">REFERENCES</span> users(user_id)
+);
+
+<span class="comment">-- Monthly revenue per zone</span>
+<span class="keyword">SELECT</span> zone, <span class="function">SUM</span>(amount) <span class="keyword">AS</span> monthly_revenue
+<span class="keyword">FROM</span> users u <span class="keyword">JOIN</span> payments p <span class="keyword">ON</span> u.user_id = p.user_id
+<span class="keyword">WHERE</span> <span class="function">MONTH</span>(payment_date) = <span class="function">MONTH</span>(<span class="function">CURDATE</span>())
+<span class="keyword">GROUP BY</span> zone;</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Database Operations</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>User Management:</strong> 250+ active users created with role-based access</li>
+                        <li><strong>Billing:</strong> Automated monthly billing, payment tracking, invoice generation</li>
+                        <li><strong>Usage Tracking:</strong> Real-time data monitoring, bandwidth reports, quota enforcement</li>
+                        <li><strong>Backup:</strong> Daily automated backups, weekly verification, quarterly archival</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- UNIT 8: MIS -->
+            <div class="unit-content" id="unit-8">
+                <div class="page-header">
+                    <h2><span class="unit-num">08</span> Perform Management Information System</h2>
+                    <p>Studied and implemented management information systems for network operations, business analytics, and decision-making support.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>MIS Components</div>
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>Data Collection:</strong> Real-time network metrics, user activities, financial transactions</li>
+                            <li><strong>Processing:</strong> Automated data aggregation, performance calculations, trend analysis</li>
+                            <li><strong>Reporting:</strong> Daily operation reports, weekly performance summaries, monthly financial statements</li>
+                            <li><strong>Analysis:</strong> Revenue trends, user growth patterns, network health indicators</li>
+                            <li><strong>Decision Support:</strong> Capacity planning data, pricing optimization, expansion recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>Simple MIS Report</div>
+                        </div>
+                        <div class="info-box">
+                            <strong>Report Summary</strong>
+                            I collected basic data from the network and workplace activities and used it to prepare simple reports for monitoring performance and supporting decisions.
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>Data collected:</strong> User activity, support issues, connectivity status, and service usage.</li>
+                            <li><strong>Reports prepared:</strong> Weekly summaries of uptime, service concerns, and recurring technical problems.</li>
+                            <li><strong>Usefulness:</strong> Helped identify problem areas, track maintenance tasks, and improve service delivery.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 9: GRAPHIC DESIGN -->
+            <div class="unit-content" id="unit-9">
+                <div class="page-header">
+                    <h2><span class="unit-num">09</span> Perform Graphic Design</h2>
+                    <p>Created marketing materials, network documentation, and user interface designs for company branding and customer communication.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Designs Produced</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Network Diagrams:</strong> Professional network topology diagrams using Lucidchart</li>
+                        <li><strong>Marketing Materials:</strong> Social media graphics, promotional posters, service flyers</li>
+                        <li><strong>User Guides:</strong> Illustrated setup instructions, troubleshooting flowcharts, FAQ documents</li>
+                        <li><strong>Dashboard UI:</strong> Web interface design mockups, mobile app layouts, color schemes</li>
+                        <li><strong>Company Branding:</strong> Logo usage, color palette standardization, typography guidelines</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Design Samples</div>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item">
+                            <img src="images/unit9_network_diagram.png" alt="Network diagram design" onerror="this.style.display='none'">
+                            <div class="photo-caption">Network diagram design</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/unit9_app_ui.jpg" alt="App UI mockup" onerror="this.style.display='none'">
+                            <div class="photo-caption">App UI mockup</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="images/unit9_user_guide.jpg" alt="User guide layout" onerror="this.style.display='none'">
+                            <div class="photo-caption">User guide layout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 10: PROGRAMMING -->
+            <div class="unit-content" id="unit-10">
+                <div class="page-header">
+                    <h2><span class="unit-num">10</span> Develop Computer Program</h2>
+                    <p>Developed utility applications in Java and Python for network management and business operations.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Java - Network Configuration Manager</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre><span class="keyword">import</span> java.io.*;
+<span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="function">NetworkConfigManager</span> {
+    <span class="keyword">private</span> Map&lt;String, Device&gt; devices;
+
+    <span class="keyword">public</span> <span class="function">NetworkConfigManager</span>() {
+        <span class="keyword">this</span>.devices = <span class="keyword">new</span> HashMap&lt;&gt;();
+    }
+
+    <span class="keyword">public class</span> Device {
+        String ip, ssid, security;
+        <span class="keyword">int</span> bandwidth;
+
+        Device(String ip, String ssid, String security, <span class="keyword">int</span> bandwidth) {
+            <span class="keyword">this</span>.ip = ip;
+            <span class="keyword">this</span>.ssid = ssid;
+            <span class="keyword">this</span>.security = security;
+            <span class="keyword">this</span>.bandwidth = bandwidth;
+        }
+    }
+
+    <span class="keyword">public void</span> <span class="function">addDevice</span>(String id, String ip, String ssid, String security, <span class="keyword">int</span> bw) {
+        devices.put(id, <span class="keyword">new</span> Device(ip, ssid, security, bw));
+        System.out.println(<span class="string">"Device added: "</span> + id);
+    }
+
+    <span class="keyword">public void</span> <span class="function">configureDevice</span>(String deviceId, String newSSID, String newSecurity) {
+        Device d = devices.get(deviceId);
+        <span class="keyword">if</span> (d != <span class="keyword">null</span>) {
+            d.ssid = newSSID;
+            d.security = newSecurity;
+            System.out.println(<span class="string">"Device "</span> + deviceId + <span class="string">" configured"</span>);
+        }
+    }
+
+    <span class="keyword">public void</span> <span class="function">listAllDevices</span>() {
+        devices.forEach((id, device) -> {
+            System.out.println(id + <span class="string">": IP="</span> + device.ip + 
+                             <span class="string">" SSID="</span> + device.ssid + 
+                             <span class="string">" Security="</span> + device.security);
+        });
+    }
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+        NetworkConfigManager manager = <span class="keyword">new</span> NetworkConfigManager();
+        manager.addDevice(<span class="string">"K1"</span>, <span class="string">"192.168.100.1"</span>, <span class="string">"User_K1"</span>, <span class="string">"WPA2"</span>, 10);
+        manager.addDevice(<span class="string">"K2"</span>, <span class="string">"192.168.100.2"</span>, <span class="string">"User_K2"</span>, <span class="string">"WPA2"</span>, 10);
+        manager.listAllDevices();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Python - Bandwidth Monitor</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre><span class="keyword">import</span> requests
+<span class="keyword">import</span> json
+<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime
+
+<span class="keyword">class</span> <span class="function">BandwidthMonitor</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, api_url):
+        self.api_url = api_url
+        self.usage_data = {}
+
+    <span class="keyword">def</span> <span class="function">fetch_device_stats</span>(self, device_ip):
+        <span class="string">"""Get bandwidth stats from device"""</span>
+        <span class="keyword">try</span>:
+            response = requests.get(<span class="string">f"http://{device_ip}/api/stats"</span>)
+            <span class="keyword">return</span> response.json()
+        <span class="keyword">except</span>:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+
+    <span class="keyword">def</span> <span class="function">calculate_usage</span>(self, uploaded_bytes, downloaded_bytes):
+        <span class="string">"""Convert bytes to GB"""</span>
+        total_bytes = uploaded_bytes + downloaded_bytes
+        <span class="keyword">return</span> total_bytes / (1024**3)
+
+    <span class="keyword">def</span> <span class="function">log_usage</span>(self, user_id, usage_gb):
+        <span class="string">"""Log usage to database"""</span>
+        timestamp = datetime.now()
+        self.usage_data[user_id] = {
+            <span class="string">'usage_gb'</span>: usage_gb,
+            <span class="string">'timestamp'</span>: timestamp.isoformat()
+        }
+        <span class="function">print</span>(<span class="string">f"User {user_id}: {usage_gb:.2f} GB"</span>)
+
+    <span class="keyword">def</span> <span class="function">check_quota</span>(self, user_id, limit_gb):
+        <span class="string">"""Check if user exceeded quota"""</span>
+        <span class="keyword">if</span> user_id <span class="keyword">in</span> self.usage_data:
+            usage = self.usage_data[user_id][<span class="string">'usage_gb'</span>]
+            <span class="keyword">return</span> (limit_gb - usage) > 0
+        <span class="keyword">return</span> <span class="keyword">True</span>
+
+    <span class="keyword">def</span> <span class="function">generate_report</span>(self):
+        <span class="string">"""Generate usage report"""</span>
+        <span class="keyword">return</span> json.dumps(self.usage_data, indent=2, default=str)
+
+<span class="comment"># Usage</span>
+monitor = BandwidthMonitor(<span class="string">"192.168.1.1"</span>)
+stats = monitor.fetch_device_stats(<span class="string">"192.168.100.1"</span>)
+usage_gb = monitor.calculate_usage(stats[<span class="string">'up'</span>], stats[<span class="string">'down'</span>])
+monitor.log_usage(<span class="string">"user_001"</span>, usage_gb)
+<span class="function">print</span>(monitor.generate_report())</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 11: MOBILE APP -->
+            <div class="unit-content" id="unit-11">
+                <div class="page-header">
+                    <h2><span class="unit-num">11</span> Develop Mobile Application</h2>
+                    <p>Designed and prototyped a mobile app for network management and customer self-service portal.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>App Features</div>
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>User Authentication:</strong> Secure login with email/password</li>
+                            <li><strong>Dashboard:</strong> Connection status, speed test, data usage tracking</li>
+                            <li><strong>Payments:</strong> View bills, make payments via M-Pesa/bank transfer</li>
+                            <li><strong>Support:</strong> Report issues, live chat with technical support</li>
+                            <li><strong>Notifications:</strong> Alerts for bill due, quota warnings, service updates</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="dot"></span>App Mockups</div>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item">
+                                <img src="images/unit11_login.jpg" alt="Login screen" onerror="this.style.display='none'">
+                                <div class="photo-caption">Login screen</div>
+                            </div>
+                            <div class="photo-item">
+                                <img src="images/unit11_dashboard.jpg" alt="Dashboard" onerror="this.style.display='none'">
+                                <div class="photo-caption">Dashboard</div>
+                            </div>
+                            <div class="photo-item">
+                                <img src="images/unit11_payment.jpg" alt="Payment screen" onerror="this.style.display='none'">
+                                <div class="photo-caption">Payment screen</div>
+                            </div>
+                            <div class="photo-item">
+                                <img src="images/unit11_support.jpg" alt="Support chat" onerror="this.style.display='none'">
+                                <div class="photo-caption">Support chat</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>Android - Network Status Activity (Kotlin)</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <pre><span class="keyword">import</span> android.os.Bundle
+<span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity
+<span class="keyword">import</span> android.widget.TextView
+<span class="keyword">import</span> retrofit2.Retrofit
+<span class="keyword">import</span> retrofit2.http.GET
+
+<span class="keyword">class</span> <span class="function">NetworkStatusActivity</span> : AppCompatActivity() {
+    <span class="keyword">override fun</span> <span class="function">onCreate</span>(savedInstanceState: Bundle?) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_network_status)
+
+        <span class="keyword">val</span> statusView = findViewById&lt;TextView&gt;(R.id.status_text)
+        <span class="keyword">val</span> speedView = findViewById&lt;TextView&gt;(R.id.speed_text)
+        <span class="keyword">val</span> usageView = findViewById&lt;TextView&gt;(R.id.usage_text)
+
+        <span class="keyword">val</span> api = Retrofit.Builder()
+            .baseUrl(<span class="string">"https://api.company.com/"</span>)
+            .build()
+            .create(NetworkAPI::<span class="keyword">class</span>.java)
+
+        <span class="keyword">val</span> call = api.getStatus(userId = <span class="string">"user_001"</span>)
+        call.enqueue(<span class="keyword">object</span> : Callback&lt;StatusResponse&gt; {
+            <span class="keyword">override fun</span> <span class="function">onResponse</span>(call: Call&lt;StatusResponse&gt;, 
+                                   response: Response&lt;StatusResponse&gt;) {
+                response.body()?.let {
+                    statusView.text = <span class="string">"Status: ${it.status}"</span>
+                    speedView.text = <span class="string">"Speed: ${it.speed} Mbps"</span>
+                    usageView.text = <span class="string">"Usage: ${it.used_gb}/${it.limit_gb} GB"</span>
+                }
+            }
+
+            <span class="keyword">override fun</span> <span class="function">onFailure</span>(call: Call&lt;StatusResponse&gt;, t: Throwable) {
+                statusView.text = <span class="string">"Error loading data"</span>
+            }
+        })
+    }
+}
+
+<span class="keyword">interface</span> <span class="function">NetworkAPI</span> {
+    <span class="keyword">@GET</span>(<span class="string">"network/status"</span>)
+    <span class="keyword">fun</span> <span class="function">getStatus</span>(<span class="keyword">@Query</span>(<span class="string">"user_id"</span>) userId: String): Call&lt;StatusResponse&gt;
+}
+
+<span class="keyword">data class</span> <span class="function">StatusResponse</span>(
+    <span class="keyword">val</span> status: String,
+    <span class="keyword">val</span> speed: Int,
+    <span class="keyword">val</span> used_gb: Float,
+    <span class="keyword">val</span> limit_gb: Int
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIT 12: SYSTEM ANALYSIS -->
+            <div class="unit-content" id="unit-12">
+                <div class="page-header">
+                    <h2><span class="unit-num">12</span> Perform System Analysis & Design</h2>
+                    <p>Conducted system analysis for network expansion and designed scalable architecture for future growth.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>System Development Phases</div>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Phase 1 - Analysis:</strong> Assessed current network capacity, identified bottlenecks, gathered expansion requirements</li>
+                        <li><strong>Phase 2 - Design:</strong> Designed new network topology, documented infrastructure requirements, planned phased rollout</li>
+                        <li><strong>Phase 3 - Implementation:</strong> Set up new hotspots according to design, configured systems, tested thoroughly</li>
+                        <li><strong>Phase 4 - Deployment:</strong> Rolled out to Kianjiru and Mururi zones, monitored performance, gathered user feedback</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="dot"></span>System Design Document</div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Current System</strong>
+                        5 hotspots | 2 zones | 250 users | 50 Mbps total capacity | 99.5% uptime
+                    </div>
+                    <div class="info-box">
+                        <strong>Designed Expansion (Year 2)</strong>
+                        10 hotspots | 4 zones | 500 users | 150 Mbps total capacity | 99.9% uptime target
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>New Infrastructure:</strong> Additional fiber backbone, mesh network redundancy, backup power systems</li>
+                        <li><strong>Technology Upgrades:</strong> WiFi 6 capable devices, 5GHz primary band, improved security protocols</li>
+                        <li><strong>Scalability:</strong> Modular design allowing independent zone management, easy capacity addition</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ASSESSMENT SIGN-OFF -->
+            <div class="unit-content" id="unit-99">
+                <div class="page-header">
+                    <h2><span class="unit-num">AS</span> Mentor Assessment & Sign-Off</h2>
+                    <p>This comprehensive portfolio documents the competencies demonstrated during the 3-month industrial attachment. The mentor verifies completion and competency achievement.</p>
+                </div>
+
+                <div class="assessment-card">
+                    <div class="assessment-grid">
+                        <div class="assessment-field">
+                            <label>Mentor / Supervisor Name</label>
+                            <input type="text" placeholder="Full name">
+                        </div>
+                        <div class="assessment-field">
+                            <label>Designation / Title</label>
+                            <input type="text" placeholder="Job position">
+                        </div>
+                        <div class="assessment-field">
+                            <label>Organization Name</label>
+                            <input type="text" placeholder="Company name">
+                        </div>
+                        <div class="assessment-field">
+                            <label>Assessment Date</label>
+                            <input type="date">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 600; display: block; margin-bottom: 15px;">Mentor Signature</label>
+                        <div class="sign-line"></div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 600; display: block; margin-bottom: 10px;">Overall Assessment Remarks</label>
+                        <textarea placeholder="Mentor's overall assessment of trainee's competency achievement across all 12 units..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p><strong>TVET CDACC Level 6 - ICT Technician</strong></p>
+                <p style="margin-top: 10px; opacity: 0.8;">Comprehensive Industrial Attachment Portfolio - 12 Competency Units</p>
+                <p style="margin-top: 15px; opacity: 0.6; font-size: 12px;">Assessment Document | Valid for TVET CDACC Certification Process</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="imageModal" class="image-modal" aria-hidden="true">
+        <div class="image-modal-content">
+            <button type="button" class="image-modal-close" aria-label="Close image view">×</button>
+            <img src="" alt="">
+            <div class="image-modal-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        function showUnit(unitNum, btn) {
+            document.querySelectorAll('.unit-content').forEach(u => u.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            document.getElementById('unit-' + unitNum).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function openImageModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = modal.querySelector('img');
+            const caption = modal.querySelector('.image-modal-caption');
+
+            modalImg.src = img.getAttribute('src');
+            modalImg.alt = img.getAttribute('alt') || 'Portfolio image';
+            caption.textContent = img.getAttribute('alt') || 'Portfolio image';
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+        }
+
+        function attachImageBehavior(img) {
+            if (img.closest('.image-modal')) return;
+            img.setAttribute('role', 'button');
+            img.setAttribute('tabindex', '0');
+            img.setAttribute('aria-label', 'View larger image');
+            img.addEventListener('click', function (event) {
+                event.preventDefault();
+                openImageModal(this);
+            });
+            img.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openImageModal(this);
+                }
+            });
+        }
+
+        function addUploadedPhoto(file) {
+            const container = document.getElementById('uploadedPhotos');
+            if (!container || !file.type.startsWith('image/')) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'photo-item';
+
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.alt = file.name;
+            img.loading = 'lazy';
+
+            const caption = document.createElement('div');
+            caption.className = 'photo-caption';
+            caption.textContent = file.name.replace(/\.[^/.]+$/, '');
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(caption);
+            container.appendChild(wrapper);
+            attachImageBehavior(img);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('img').forEach(function (img) {
+                attachImageBehavior(img);
+            });
+
+            const uploadInput = document.getElementById('photoUpload');
+            if (uploadInput) {
+                uploadInput.addEventListener('change', function (event) {
+                    Array.from(event.target.files || []).forEach(addUploadedPhoto);
+                    event.target.value = '';
+                });
+            }
+
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeImageModal();
+                }
+            });
+
+            modal.querySelector('.image-modal-close').addEventListener('click', closeImageModal);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeImageModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

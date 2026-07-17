@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#07111f"/>
+  <rect x="30" y="30" width="1140" height="840" rx="24" fill="#0f172a" stroke="#6366f1" stroke-width="8"/>
+  <rect x="70" y="70" width="1060" height="760" rx="20" fill="#111827"/>
+  <circle cx="250" cy="240" r="110" fill="#1d4ed8"/>
+  <rect x="260" y="300" width="320" height="220" rx="16" fill="#3b82f6"/>
+  <rect x="700" y="220" width="320" height="280" rx="18" fill="#2563eb"/>
+  <path d="M780 620c80-90 140-130 220-160" stroke="#93c5fd" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <text x="110" y="160" fill="#f8fafc" font-family="Arial, sans-serif" font-size="44" font-weight="700">User Guide</text>
+  <text x="110" y="220" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="28">Documentation layout</text>
+  <text x="110" y="760" fill="#818cf8" font-family="Arial, sans-serif" font-size="20">TVET ICT Portfolio Evidence</text>
+  <text x="110" y="795" fill="#94a3b8" font-family="Arial, sans-serif" font-size="18">Theme: guide</text>
+</svg>
